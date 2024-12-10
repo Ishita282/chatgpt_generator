@@ -1,5 +1,11 @@
+const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const colors = require("colors");
+
+dotenv.config();
+
+mongoose.set('strictQuery', true); // Avoid deprecation warning
+
 
 const connectDB = async () => {
   try {

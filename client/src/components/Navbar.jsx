@@ -29,7 +29,7 @@ const Navbar = () => {
       sx={{ boxShadow: 3, mb: 2 }}
     >
       <Typography variant="h1" color="primary" fontWeight="medium">
-        <Link to={'/'} >AI GPT3 Clone</Link>
+        <Link to={'/'} >Multi-Use chatbot</Link>
       </Typography>
       {loggedIn ? (
         <>

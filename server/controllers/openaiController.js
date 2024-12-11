@@ -1,22 +1,34 @@
 const dotenv = require("dotenv");
 dotenv.config();
-const { OpenAI } = require("openai");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-const openai = new OpenAI();
+// Set up Gemini API
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+// Helper function to ensure we handle the response timeout
+const waitForResponse = async (promise, timeout = 30000) => {
+  const timeoutPromise = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error("Request timed out")), timeout)
+  );
+  return Promise.race([promise, timeoutPromise]);
+};
 
 exports.summaryController = async (req, res) => {
   try {
     const { text } = req.body;
-    const { data } = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: `Summarize this \n${text}`,
-      max_tokens: 500,
-      temperature: 0.5,
-    });
+    console.log(text);
+    const prompt = `summarize this text: ${text}`;
+
+    // Wait for response with timeout handling
+    const response = await waitForResponse(model.generateContent(prompt));
+    const data = response.data;
+
     if (data) {
-      if (data.choices[0].text) {
-        return res.status(200).json(data.choices[0].text);
-      }
+      console.log(data);
+      return res.status(200).json(data);
+    } else {
+      throw new Error("No data returned from Gemini.");
     }
   } catch (err) {
     console.log(err);
@@ -25,19 +37,22 @@ exports.summaryController = async (req, res) => {
     });
   }
 };
+
 exports.paragraphController = async (req, res) => {
   try {
     const { text } = req.body;
-    const { data } = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: `write a detail paragraph about \n${text}`,
-      max_tokens: 500,
-      temperature: 0.5,
-    });
+    console.log(text);
+    const prompt = `write a detailed paragraph about \n${text}`;
+
+    // Wait for response with timeout handling
+    const response = await waitForResponse(model.generateContent(prompt));
+    const data = response.data;
+
     if (data) {
-      if (data.choices[0].text) {
-        return res.status(200).json(data.choices[0].text);
-      }
+      console.log(data);
+      return res.status(200).json(data);
+    } else {
+      throw new Error("No data returned from Gemini.");
     }
   } catch (err) {
     console.log(err);
@@ -46,19 +61,22 @@ exports.paragraphController = async (req, res) => {
     });
   }
 };
+
 exports.chatbotController = async (req, res) => {
   try {
     const { text } = req.body;
-    const { data } = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: `${text}`,
-      max_tokens: 300,
-      temperature: 0.7,
-    });
+    console.log(text);
+    const prompt = `${text}`;
+
+    // Wait for response with timeout handling
+    const response = await waitForResponse(model.generateContent(prompt));
+    const data = response.data;
+
     if (data) {
-      if (data.choices[0].text) {
-        return res.status(200).json(data.choices[0].text);
-      }
+      console.log(data);
+      return res.status(200).json(data);
+    } else {
+      throw new Error("No data returned from Gemini.");
     }
   } catch (err) {
     console.log(err);
@@ -67,39 +85,22 @@ exports.chatbotController = async (req, res) => {
     });
   }
 };
+
 exports.jsconverterController = async (req, res) => {
   try {
     const { text } = req.body;
-    const { data } = await openai.createCompletion({
-      model: "text-davinci-002",
-      prompt: `/* convert these instructions into javascript code \n${text}`,
-      max_tokens: 400,
-      temperature: 0.25,
-    });
+    console.log(text);
+    const prompt = `/* convert these instructions into javascript code \n${text}`;
+
+    // Wait for response with timeout handling
+    const response = await waitForResponse(model.generateContent(prompt));
+    const data = response.data;
+
     if (data) {
-      if (data.choices[0].text) {
-        return res.status(200).json(data.choices[0].text);
-      }
-    }
-  } catch (err) {
-    console.log(err);
-    return res.status(404).json({
-      message: err.message,
-    });
-  }
-};
-exports.scifiImageController = async (req, res) => {
-  try {
-    const { text } = req.body;
-    const { data } = await openai.createImage({
-      prompt: `generate a scifi image of ${text}`,
-      n: 1,
-      size: "512x512",
-    });
-    if (data) {
-      if (data.data[0].url) {
-        return res.status(200).json(data.data[0].url);
-      }
+      console.log(data);
+      return res.status(200).json(data);
+    } else {
+      throw new Error("No data returned from Gemini.");
     }
   } catch (err) {
     console.log(err);

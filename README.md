@@ -2,17 +2,15 @@
 
 # Update
 
-- **_There won't be any response as the OpenAI API's free trial got expired on 1 June 2023._**
-
 ChatGPT (GPT-3) Clone with additional features:
 
 - AI Chatbot
 - Text Summarization
 - Paragraph Generator
 - Code Converter
-- AI Image Generator (doesn't support in Gemini)
+- AI Image Generator
 
-using Gemini API.
+using OpenAI API to get full access.
 <br>
 MERN Web-App with auth.
 
@@ -30,4 +28,4 @@ MERN Web-App with auth.
 
 1. To run the application, first move to **server** folder using command `cd server` <br> Then use command `npm run dev` to start the application.
 
-### Give it a star if helpful!
+###Happy coding with Ishita

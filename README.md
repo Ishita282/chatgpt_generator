@@ -1,8 +1,6 @@
-# ChatGPT-clone-MERN
+# ChatGPT-Text- Generator-MERN
 
-# Update
-
-ChatGPT (GPT-3) Clone with additional features:
+ChatGPT (GPT-3) with additional features:
 
 - AI Chatbot
 - Text Summarization
